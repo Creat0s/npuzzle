@@ -1,5 +1,5 @@
 #include "raylib.h"
-#include <stdlib.h>
+#include "npuzzle.h"
 #include <stdio.h>
 
 #define SCREEN_WIDTH 360
@@ -37,45 +37,6 @@ bool check_position(Vector2 position)
     else return false;
 }
 
-// Подсчет инверсий в пятнашках
-int count_inversions(int total_tiles, int vals[])
-{
-    int inversions = 0;
-
-    for(int i = 0; i < total_tiles-1; i++)
-    {
-        for(int j = i+1; j < total_tiles; j++)
-        {
-            if(vals[i] && vals[j] && vals[i] > vals[j]) inversions++;
-        }
-    }
-
-    return inversions;
-}
-
-// Проверки, является ли пятнашка решаемой
-bool is_solvable(int vals[], int n, int m)
-{
-    int total_tiles, inversions;
-    
-    total_tiles = n*m;
-    inversions = count_inversions(total_tiles, vals);
-
-    if(n%2 == 1) return inversions % 2 == 0;
-    
-    else
-    {
-        int emptyRow = 0;
-        
-        for (int i = 0; i < total_tiles; i++)
-        {
-            if (vals[i] == 0) {emptyRow = i/m; break;}
-        }
-        
-        return (emptyRow%2 == 0) ? (inversions%2 == 1) : (inversions%2 == 0);
-    }
-}
-
 void draw_logo(Texture2D logo)
 {    
     DrawTexture(logo, 80, 120, WHITE);
@@ -97,24 +58,7 @@ void npuzzle(int n, Texture2D texture, Sound click_sound)
     Sound win_sound = LoadSound("assets/win.ogg");
     
     // Заполняем список числами
-    do
-    {
-        for(i = 0; i < n*n; i++)
-        {
-            do
-            {
-                tmp = rand()%(n*n);
-                vals[i] = tmp;
-                
-                for(j = 0; j < i; j++)
-                {
-                    if(vals[j] == tmp) break;
-                }
-            }
-            while(j < i);
-        }
-    }
-    while(!is_solvable(vals, n, n));
+    create_puzzle(vals, n, n);
     
     //Заполняем игровое поле
     for(i = 1; i <= n*n; i++)
