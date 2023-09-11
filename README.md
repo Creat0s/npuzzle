@@ -29,4 +29,3 @@ to obtain the number of inversions in the puzzle. These functions work the same 
 | Android           | 7.0+        |
 
 You can easily rebuild this sample game on other platforms supported by [raylib](https://github.com/raysan5/raylib).
-You also can download the game from the following link: [google disk](https://drive.google.com/drive/folders/1IHS4GEI9Vd_sIaLYdIvFF8ndfOnoedNP?usp=sharing).
